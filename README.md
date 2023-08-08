@@ -7,21 +7,24 @@ Please fork the repo to start. Once finished, issue a pull request to our repo s
 This challenge requires:
 
 - NodeJS (> v14.7.0)
-- NPM or Yarn (if using Yarn, you'll need to edit the scripts on the root's package.json)
+- NPM
 - A cup of ☕ or 🍵
 
-The repo is pre-configured, so just by running `npm i` or `yarn`, should be able to install these basic packages:
+The repo is pre-configured, so just running `npm i` you should be able to install these basic packages:
 
 - React Router + Axios: To fetch data and navigate through the site.
 - Parcel + React.js: To serve and build a simple front-end.
+- Typescript: To build our app.
 - Json Server: To serve and expose a basic json db.
+
+You may use any other package of your choice to enrich your development experience, but what's already installed is mandatory to use.
 
 In the main `package.json` you'll have access to the following scripts:
 
 - `npm run app`: To run the react app.
 - `npm run server`: To start the local db.
 
-You may use any other package of your choice to enrich your development experience, but what's already installed is mandatory to use.
+Finally, in the folder `web/src/types` you can find the interfaces needed to type the recieved data from the different APIs. Feel free to edit them as you see fit.
 
 ## The challenge
 
@@ -45,7 +48,7 @@ Finally, if any design element does not comply with best practices, we expect yo
 
 ## The task
 
-Using react and the apis referenced in the resources section, create a simple web app consisting of four screens:
+Using react and the APIs referenced in the resources section, create a simple web app consisting of four screens:
 
 1. Login: A login/register screen
 1. Search: A universities search screen, with results
@@ -54,15 +57,17 @@ Using react and the apis referenced in the resources section, create a simple we
 Aside from the screens, the app has to comply with the following specs:
 
 - Search values have to be autocompleted with the correct (or close-to-correct) university name.
-- A menu to go to the search page, the user profile, and logout.
-- User data must include at least an email, password, and a universities list.
+- A menu to go to the login page, signin page, search page, user profile, and logout; depending if the user is logged in or not.
+- User data must include at least an email, password, and an universities list.
   > Use Json-server for this. Do not worry about hashing or security as this is only a basic local db. We just want to see how you handle the data.
+- User session must persist.
 
-Personal user data (like the email) may or may not be shown depending on your preference, but a way for the user to identify that he/she is logged in would be appreciated.
+Personal user data (like the email) may or may not be shown depending on your preference, but a way for the user to identify that he/she is logged is required.
 
 ## What we'll be looking at
 
 - Clean, formatted, readable, KISS, DRY code
+- Typescript implementation
 - Commits structures and information
 - Componentization and reusability
 - State management
@@ -75,7 +80,7 @@ Personal user data (like the email) may or may not be shown depending on your pr
 
 ## Submission Guidelines
 
-Feel free to add or replace any package. The only one that is mandatory, is React.js.
+You may use any other package of your choice to enrich your development experience, but what's already installed is mandatory to use.
 
 Once finished, issue a pull request to our repo's branch "submissions/your-name-and-lastname" so we can review your solution. If the branch is not already created, please notify us and we'll create one for you.
 
