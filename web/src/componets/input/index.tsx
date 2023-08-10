@@ -2,49 +2,67 @@ import { InputHTMLAttributes } from "react";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   /**
-   * Etiqueta para el input.
+   * Label tag for input.
    */
-  label: string;
+  label?: string;
 
   /**
-   * Placeholder en el input.
+   * Aditional Classname to control Input layout.
    */
-  placeholder: string;
+  className?: string;
 
   /**
-   * Valor actual del input.
+   * Input placeholder .
    */
-  value: string;
+  placeholder?: string;
 
   /**
-   * Callback que se ejecutará al cambiar el valor del input.
+   * Identify required inputs with '*'.
+   */
+  required?: boolean;
+
+  /**
+   * Acutal value for input.
+   */
+  value?: string;
+
+  /**
+   *  Callback function to trigger when input value change.
    */
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 /**
- * Componente de input reutilizable.
+ * Input component.
  *
- * @param {InputProps} props - Props para el componente Input.
- * @returns {JSX.Element} Elemento JSX que representa el input.
+ * @param {InputProps}
+ * @returns {JSX.Element}
  */
 export const Input: React.FC<InputProps> = ({
   label,
   placeholder,
+  className,
+  required = false,
   value,
   onChange,
   ...restProps
 }) => {
   return (
-    <div className="flex flex-col mb-5 relative">
-      <label className="font-open-sans font-bold text-lg text-gray-700 mb-1">
-        {label}
-      </label>
-      <span className="font-open-sans text-lg text-gray-600 mb-1 absolute top-7 right-2">
-        *
-      </span>
+    <div className={`flex flex-col relative w-full ${className}`}>
+      {label && (
+        <label className="font-open-sans font-bold text-lg text-gray-700 mb-1">
+          {label}
+        </label>
+      )}
+
+      {required && (
+        <span className="font-open-sans text-lg text-gray-600 mb-1 absolute top-7 right-2">
+          *
+        </span>
+      )}
+
       <input
-        className="h-14 border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
+        className="h-14 w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
         value={value}
         placeholder={placeholder}
         onChange={onChange}

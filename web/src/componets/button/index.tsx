@@ -4,30 +4,42 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /**
    * Texto del botón.
    */
-  text: string;
+  text?: string;
 
   /**
-   * Right icon fot button.
+   * Aditional Classname to control Button Layout.
    */
-  icon: JSX.Element;
+  className?: string;
 
   /**
-   * Callback que se ejecutará al hacer clic en el botón.
+   * icon for button.
+   */
+  icon?: JSX.Element;
+
+  /**
+   * Callback function to trigger when button is clicked.
    */
   onClick: () => void;
 }
 
 /**
- * Componente de botón reutilizable.
+ * button component.
  *
- * @param {ButtonProps} props - Props para el componente Botón.
- * @returns {JSX.Element} Elemento JSX que representa el botón.
+ * @param {ButtonProps}
+ * @returns {JSX.Element}
  */
-export const Button: React.FC<ButtonProps> = ({ text, icon, onClick }) => {
+export const Button: React.FC<ButtonProps> = ({
+  text,
+  icon,
+  className,
+  onClick,
+  ...restProps
+}) => {
   return (
     <button
-      className={`bg-blue-500 rounded p-4 flex w-full justify-center font-open-sans font-bold text-lg text-white`}
+      className={`h-14 bg-blue-500 rounded p-4 flex justify-center font-open-sans font-bold text-lg text-white ${className}`}
       onClick={onClick}
+      {...restProps}
     >
       {text}
 

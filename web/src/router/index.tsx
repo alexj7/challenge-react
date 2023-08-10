@@ -10,7 +10,7 @@ import { Home } from "../screens/home";
 import { UniDetail } from "../screens/uniDetail";
 
 export const AppRouter = () => {
-  const logged = false;
+  const logged = true;
   // const { state: { logged } } = useContext(DataContext)
 
   return (
@@ -21,7 +21,7 @@ export const AppRouter = () => {
         {/* AUTH PUBLIC */}
         <Route
           path="/login"
-          element={!logged ? <Login /> : <Navigate to="/" />}
+          element={logged ? <Login /> : <Navigate to="/" />}
         />
 
         {/* PRIVATE LOGGED */}

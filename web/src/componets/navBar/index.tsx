@@ -8,7 +8,7 @@ export const Navbar = () => {
           <img src={logo} className="w-12" />
         </div>
 
-        <div className="cursor-pointer hover:bg-gray-100 py-1 px-2 rounded-pill">
+        <div className="cursor-pointer hover:bg-gray-100 py-1 px-3 rounded-full">
           <h1 className="font-open-sans font-bold text-lg text-zinc-500">
             Search
           </h1>
