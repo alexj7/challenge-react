@@ -8,6 +8,7 @@ import {
 import { Login } from "../screens/login";
 import { Home } from "../screens/home";
 import { UniDetail } from "../screens/uniDetail";
+import { Navbar } from "../componets/navBar";
 
 export const AppRouter = () => {
   const logged = true;
@@ -15,6 +16,7 @@ export const AppRouter = () => {
 
   return (
     <Router>
+      <Navbar />
       {/* {logged ? <NavBar /> : null} */}
 
       <Routes>

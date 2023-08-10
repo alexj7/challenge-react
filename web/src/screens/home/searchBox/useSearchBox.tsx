@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { University } from "../../../types/university";
 
 type UseSearchBoxProps = {
   onSearch: (event: string) => void;
@@ -11,6 +12,7 @@ type UseSearchBoxResult = {
   searchText: string;
   handleOnChange: (value: string) => void;
   handleSearch: () => void;
+  onSelectUni: (uni: University) => void;
   menuRef: React.RefObject<HTMLDivElement>;
 };
 
@@ -40,6 +42,12 @@ export const useSearchBox = ({
     setIsOpen(false);
     onSearch(searchText);
   };
+
+  const onSelectUni = (uni: University) => {
+    setSearchText('')
+    setIsOpen(false);
+    onSearch(uni.name);
+  }
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
@@ -77,5 +85,6 @@ export const useSearchBox = ({
     handleOnChange,
     handleSearch,
     menuRef,
+    onSelectUni,
   };
 };

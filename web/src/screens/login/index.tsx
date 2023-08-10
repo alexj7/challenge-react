@@ -20,6 +20,7 @@ export function Login(): JSX.Element {
           label={"Password"}
           placeholder="Ingrese su contraseña"
           value={""}
+          type="password"
           onChange={() => {}}
         ></Input>
         <Button

@@ -3,6 +3,10 @@ import { Loader } from "../Loader";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   /**
+   * Type tag for input.
+   */
+  type?: string;
+  /**
    * Label tag for input.
    */
   label?: string;
@@ -44,6 +48,7 @@ export const Input: React.FC<InputProps> = ({
   placeholder,
   className,
   isLoading,
+  type = 'text',
   required = false,
   value = '',
   onChange,
@@ -53,7 +58,6 @@ export const Input: React.FC<InputProps> = ({
   const [inputValue, setInputValue] = useState<string>('')
 
   const _onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event)
     setInputValue(event.target.value)
     onChange?.(event)
   }
@@ -81,6 +85,7 @@ export const Input: React.FC<InputProps> = ({
         value={inputValue}
         placeholder={placeholder}
         onChange={_onChange}
+        type={type}
         {...restProps}
       />
 

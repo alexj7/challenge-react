@@ -4,7 +4,6 @@ import { UniItem } from "../../componets/UniItem";
 import { SearchBox } from "./searchBox";
 import { UniversitiesApi } from "../../api";
 import { University } from "../../types/university";
-import { Loader } from "../../componets/Loader";
 
 export function Home(): JSX.Element {
 
@@ -18,7 +17,6 @@ export function Home(): JSX.Element {
         setIsLoading(true)
         const universitiesByNameAndCountry = await UniversitiesApi.searchByNameAndCountry(name);
         setIsLoading(false)
-        console.log("Universities by name and country:", universitiesByNameAndCountry);
         setData(universitiesByNameAndCountry)
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -33,7 +31,6 @@ export function Home(): JSX.Element {
         setIsLoading(true)
         const universitiesByNameAndCountry = await UniversitiesApi.searchUniversitiesAutoComplete(name);
         setIsLoading(false)
-        console.log("Universities by name and country:", universitiesByNameAndCountry);
         setOptions(universitiesByNameAndCountry)
       } catch (error) {
         console.error("Error fetching data:", error);
