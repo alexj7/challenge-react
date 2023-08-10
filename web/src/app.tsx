@@ -1,5 +1,10 @@
-import './styles.css'
+import { AppRouter } from "./router";
+import "./styles.css";
 
 export function App() {
-	return <h1>Hello world!</h1>
+  return (
+    <div className="h-screen w-screen flex flex-col">
+      <AppRouter />
+    </div>
+  );
 }
