@@ -43,7 +43,7 @@ export const Button: React.FC<ButtonProps> = ({
     >
       {text}
 
-      {icon && <div className="mt-1 ml-2">{icon}</div>}
+      {icon && icon}
     </button>
   );
 };

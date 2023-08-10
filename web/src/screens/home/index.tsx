@@ -1,18 +1,61 @@
+import { useCallback, useState } from "react";
+
 import { UniItem } from "../../componets/UniItem";
 import { SearchBox } from "./searchBox";
+import { UniversitiesApi } from "../../api";
+import { University } from "../../types/university";
+import { Loader } from "../../componets/Loader";
 
 export function Home(): JSX.Element {
-  return (
-    <section className="bg-gray-100 h-full pt-14">
-      <div className="w-[600px] mx-auto">
-        <SearchBox />
 
-        <UniItem favorite={false} country={"country"} name={"University name"} />
-        <UniItem favorite={false} country={"country"} name={"University name"} />
-        <UniItem favorite={false} country={"country"} name={"University name"} />
-        <UniItem favorite={false} country={"country"} name={"University name"} />
-        <UniItem favorite={false} country={"country"} name={"University name"} />
+  const [data, setData] = useState<University[]>([])
+  const [options, setOptions] = useState<University[]>([])
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
+  const searchUniversities = useCallback(
+    async (name?: string) => {
+      try {
+        setIsLoading(true)
+        const universitiesByNameAndCountry = await UniversitiesApi.searchByNameAndCountry(name);
+        setIsLoading(false)
+        console.log("Universities by name and country:", universitiesByNameAndCountry);
+        setData(universitiesByNameAndCountry)
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    },
+    [],
+  )
+
+  const searchUniversitiesAutoComplete = useCallback(
+    async (name?: string) => {
+      try {
+        setIsLoading(true)
+        const universitiesByNameAndCountry = await UniversitiesApi.searchUniversitiesAutoComplete(name);
+        setIsLoading(false)
+        console.log("Universities by name and country:", universitiesByNameAndCountry);
+        setOptions(universitiesByNameAndCountry)
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    },
+    [],
+  )
+
+  return (
+    <section className="bg-gray-100 h-full pt-14 overflow-hidden flex flex-col">
+      <div className="w-[600px] mx-auto">
+        <SearchBox isLoading={isLoading} onSearch={searchUniversities} onAutoComplete={searchUniversitiesAutoComplete} options={options} />
       </div>
-    </section>
+      <div className="overflow-auto w-[600px] flex flex-col mx-auto">
+        {data.map((uni: University) => (
+          <UniItem
+            favorite={false}
+            country={uni.country}
+            name={uni.name}
+          />
+        ))}
+      </div>
+    </section >
   );
 }

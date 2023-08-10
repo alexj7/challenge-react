@@ -1,10 +1,16 @@
-import { InputHTMLAttributes } from "react";
+import { InputHTMLAttributes, useEffect, useState } from "react";
+import { Loader } from "../Loader";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   /**
    * Label tag for input.
    */
   label?: string;
+
+  /**
+   * Identify loading indicator.
+   */
+  isLoading?: boolean;
 
   /**
    * Aditional Classname to control Input layout.
@@ -25,11 +31,6 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
    * Acutal value for input.
    */
   value?: string;
-
-  /**
-   *  Callback function to trigger when input value change.
-   */
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 /**
@@ -42,11 +43,25 @@ export const Input: React.FC<InputProps> = ({
   label,
   placeholder,
   className,
+  isLoading,
   required = false,
-  value,
+  value = '',
   onChange,
   ...restProps
 }) => {
+
+  const [inputValue, setInputValue] = useState<string>('')
+
+  const _onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(event)
+    setInputValue(event.target.value)
+    onChange?.(event)
+  }
+
+  useEffect(() => {
+    setInputValue(value)
+  }, [value])
+
   return (
     <div className={`flex flex-col relative w-full ${className}`}>
       {label && (
@@ -63,11 +78,18 @@ export const Input: React.FC<InputProps> = ({
 
       <input
         className="h-14 w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
-        value={value}
+        value={inputValue}
         placeholder={placeholder}
-        onChange={onChange}
+        onChange={_onChange}
         {...restProps}
       />
+
+      {isLoading &&
+        <div className="absolute right-5 top-5">
+          <Loader />
+        </div>
+      }
+
     </div>
   );
 };
