@@ -1,12 +1,16 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useContext } from "react";
+
+import { DataContext } from "../../context/dataContext";
 
 import { UniItem } from "../../componets/UniItem";
 import { UniversitiesApi } from "../../api";
-import { University } from "../../types/university";
+import type { University } from "../../types/university";
 
 
 export function UniDetail(): JSX.Element {
   const [data, setData] = useState<University[]>([]);
+
+  const { state: { favoritesUni, selectedUni }, selectUni } = useContext(DataContext)
 
 
   const searchUniversitiesAutoComplete = useCallback(
@@ -14,6 +18,9 @@ export function UniDetail(): JSX.Element {
       try {
         const universitiesByNameAndCountry = await UniversitiesApi.searchUniversitiesAutoComplete(name);
         setData(universitiesByNameAndCountry)
+        if (!selectedUni) {
+          selectUni(favoritesUni[0])
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -33,7 +40,12 @@ export function UniDetail(): JSX.Element {
           <div className="font-open-sans font-bold text-3xl text-gray-700 mb-3 text-sky-500"> My favorites</div>
 
 
-          {data.map((uni, index: number) => (<UniItem key={index} favorite={true} country={uni.country} name={UniDetail.name} />))}
+          {favoritesUni.map((uni, index: number) => (<UniItem key={index} {...uni} />))}
+
+          {
+            favoritesUni.length == 0 &&
+            <span className="font-open-sans font-bold text-xl text-gray-300 mt-32 text-center"> No hay universidades marcadas como favoritas</span>
+          }
 
         </div>
 
@@ -42,10 +54,11 @@ export function UniDetail(): JSX.Element {
 
           <div className="w-full flex flex-grow mx-auto bg-white shadow-md rounded-md px-8 py-4">
 
-            {data[0]?.name &&
+            {selectedUni?.name
+              ?
               <div className="font-open-sans text-md text-gray-700">
                 <h1 className="font-bold text-lg text-gray-700 mb-4">
-                  {data[0]?.name}
+                  {selectedUni?.name}
                 </h1>
 
                 <p className="">
@@ -57,17 +70,18 @@ export function UniDetail(): JSX.Element {
                 </p>
 
 
-                <p className="mt-5">Website:  <a className="text-sky-500 underline" href={data[0]?.web_pages[0]} target="_blank" >{data[0]?.web_pages[0]}</a> </p>
-                <p className="mt-5">Location:  <span className="text-sky-500 underline" >{data[0]?.country}, city</span> </p>
-                <p className="mt-5">Country’s capital:  <span className="text-sky-500 underline" >{data[0]?.country}, city</span> </p>
-                <p className="mt-5">Country’s capital:  <span className="text-sky-500 underline" >{data[0]?.country}, city</span> </p>
+                <p className="mt-5">Website:  <a className="text-sky-500 underline" href={selectedUni?.web_pages[0]} target="_blank" >{selectedUni?.web_pages[0]}</a> </p>
+                <p className="mt-5">Location:  <span className="text-sky-500 underline" >{selectedUni?.country}, city</span> </p>
+                <p className="mt-5">Country’s capital:  <span className="text-sky-500 underline" >{selectedUni?.country}, city</span> </p>
+                <p className="mt-5">Country’s capital:  <span className="text-sky-500 underline" >{selectedUni?.country}, city</span> </p>
                 <p className="mt-5">Currency:  Name (Symbol) </p>
                 <p className="mt-5">Language:  Name </p>
                 <p className="mt-5">Population:  99999999 </p>
 
               </div>
+              :
+              <span className="font-open-sans font-bold text-xl text-gray-300 mt-28 text-center"> Selecciona alguna universidad para ver detalles</span>
             }
-
 
 
           </div>

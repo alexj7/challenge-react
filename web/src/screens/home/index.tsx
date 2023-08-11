@@ -41,15 +41,13 @@ export function Home(): JSX.Element {
 
   return (
     <section className="bg-gray-100 h-full pt-14 overflow-hidden flex flex-col">
-      <div className="w-[600px] mx-auto">
+      <div className="lg:w-[600px] w-full md:px-8 mx-auto">
         <SearchBox isLoading={isLoading} onSearch={searchUniversities} onAutoComplete={searchUniversitiesAutoComplete} options={options} />
       </div>
       <div className="overflow-auto w-[600px] flex flex-col mx-auto">
         {data.map((uni: University) => (
           <UniItem
-            favorite={false}
-            country={uni.country}
-            name={uni.name}
+            {...uni}
           />
         ))}
       </div>

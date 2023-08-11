@@ -1,12 +1,25 @@
-import logo from "../../assets/logo.png";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { DataContext } from "../../context/dataContext";
+
+import logo from "../../assets/logo.png";
+
+
 export const Navbar = () => {
+
+  const { removeState, state: { logged }, setState } = useContext(DataContext)
   const navigate = useNavigate();
 
   const navigateTo = (route) => {
     navigate(route);
   };
+
+  const onLogout = (): void => {
+    setState({ logged: false, favoritesUni: [] })
+    removeState()
+    navigateTo('/login')
+  }
 
   return (
     <section className="shadow-md sticky top-0 bg-white z-50">
@@ -24,22 +37,26 @@ export const Navbar = () => {
               Search
             </h1>
           </div>
-          <div
-            className="cursor-pointer hover:bg-gray-100 py-1 px-3 rounded-full mx-2"
-            onClick={() => navigateTo("/detail/universidad")}
-          >
-            <h1 className="font-open-sans font-bold text-lg text-zinc-500">
-              Profile
-            </h1>
-          </div>
-          <div
-            className="cursor-pointer hover:bg-gray-100 py-1 px-3 rounded-full mx-2"
-            onClick={() => navigateTo("/login")}
-          >
-            <h1 className="font-open-sans font-bold text-lg text-zinc-500">
-              Logout
-            </h1>
-          </div>
+          {logged &&
+            <>
+              <div
+                className="cursor-pointer hover:bg-gray-100 py-1 px-3 rounded-full mx-2"
+                onClick={() => navigateTo("/detail/universidad")}
+              >
+                <h1 className="font-open-sans font-bold text-lg text-zinc-500">
+                  Profile
+                </h1>
+              </div>
+              <div
+                className="cursor-pointer hover:bg-gray-100 py-1 px-3 rounded-full mx-2"
+                onClick={onLogout}
+              >
+                <h1 className="font-open-sans font-bold text-lg text-zinc-500">
+                  Logout
+                </h1>
+              </div>
+            </>
+          }
         </div>
       </div>
     </section>

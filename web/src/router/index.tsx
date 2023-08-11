@@ -1,29 +1,30 @@
+import { useContext } from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
 } from "react-router-dom";
-// import { NavBar } from "../components/organism/NavBar/NavBar";
+
+import { DataContext } from "../context/dataContext";
+
 import { Login } from "../screens/login";
 import { Home } from "../screens/home";
 import { UniDetail } from "../screens/uniDetail";
 import { Navbar } from "../componets/navBar";
 
 export const AppRouter = () => {
-  const logged = true;
-  // const { state: { logged } } = useContext(DataContext)
+  const { state: { logged } } = useContext(DataContext)
 
   return (
     <Router>
       <Navbar />
-      {/* {logged ? <NavBar /> : null} */}
 
       <Routes>
         {/* AUTH PUBLIC */}
         <Route
           path="/login"
-          element={logged ? <Login /> : <Navigate to="/" />}
+          element={!logged ? <Login /> : <Navigate to="/" />}
         />
 
         {/* PRIVATE LOGGED */}

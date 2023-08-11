@@ -1,12 +1,10 @@
-import type { University } from "../../types/university";
+import { useContext, useMemo } from "react";
+
+import { DataContext } from "../../context/dataContext";
 import { FavoriteIcon, LinkIcon } from "../icons";
 
-type UniItemProps = {
-  /**
-   * Identify if item is marked as favorite
-   */
-  favorite: boolean;
-} & Pick<University, "country" | "name">;
+import type { University } from "../../types/university";
+
 
 /**
  * UniItem component.
@@ -14,11 +12,16 @@ type UniItemProps = {
  * @param {UniItemProps}
  * @returns {JSX.Element}
  */
-export const UniItem: React.FC<UniItemProps> = ({
+export const UniItem: React.FC<University> = ({
   name,
   country,
-  favorite,
+  ...res
 }) => {
+
+  const { updateFavs, state: { favoritesUni } } = useContext(DataContext)
+
+  const isFavorite = useMemo(() => favoritesUni.some(u => u.name === name), [favoritesUni])
+
   return (
     <div className={`shadow-md bg-white py-4 px-8 mb-3`}>
       <div className="flex">
@@ -30,8 +33,8 @@ export const UniItem: React.FC<UniItemProps> = ({
         </span>
 
         <div className="flex ml-auto items-start w-14 justify-between">
-          <FavoriteIcon />
-          <LinkIcon />
+          <FavoriteIcon favorite={isFavorite} onClick={() => updateFavs({ name, country, ...res })} />
+          <LinkIcon onClick={() => console.log('link click', name)} />
         </div>
       </div>
     </div>
