@@ -4,22 +4,6 @@
       "user": "alexlador",
       "id": 1
     },
-    {
-      "user": "juan",
-      "id": 2
-    },
-    {
-      "user": "alexlador2",
-      "id": 3
-    },
-    {
-      "user": "login",
-      "id": 4
-    },
-    {
-      "user": "alex",
-      "id": 5
-    }
   ],
   "favorites": [
     {
@@ -35,88 +19,5 @@
       ],
       "id": 1
     },
-    {
-      "name": "Universidad Rey Juan Carlos",
-      "country": "Spain",
-      "domains": [
-        "urjc.es",
-        "gsyc.es"
-      ],
-      "alpha_two_code": "ES",
-      "state-province": null,
-      "web_pages": [
-        "http://www.urjc.es/"
-      ],
-      "id": 3
-    },
-    {
-      "name": "Universidad Regional del Sureste",
-      "country": "Mexico",
-      "domains": [
-        "urse.edu.mx"
-      ],
-      "alpha_two_code": "MX",
-      "state-province": null,
-      "web_pages": [
-        "http://www.urse.edu.mx/"
-      ],
-      "id": 5
-    },
-    {
-      "name": "Universidad Rafael Urdaneta",
-      "country": "Venezuela, Bolivarian Republic of",
-      "domains": [
-        "uru.edu"
-      ],
-      "alpha_two_code": "VE",
-      "state-province": null,
-      "web_pages": [
-        "http://www.uru.edu/"
-      ],
-      "id": 7
-    },
-    {
-      "name": "Universidad Ricardo Palma",
-      "country": "Peru",
-      "domains": [
-        "urp.edu.pe"
-      ],
-      "alpha_two_code": "PE",
-      "state-province": null,
-      "web_pages": [
-        "http://www.urp.edu.pe/"
-      ],
-      "userId": 2,
-      "id": 8
-    },
-    {
-      "name": "Universidad Rey Juan Carlos",
-      "country": "Spain",
-      "domains": [
-        "urjc.es",
-        "gsyc.es"
-      ],
-      "alpha_two_code": "ES",
-      "state-province": null,
-      "web_pages": [
-        "http://www.urjc.es/"
-      ],
-      "userId": 2,
-      "id": 10
-    },
-    {
-      "name": "Universidad Regional del Sureste",
-      "country": "Mexico",
-      "domains": [
-        "urse.edu.mx"
-      ],
-      "alpha_two_code": "MX",
-      "state-province": null,
-      "web_pages": [
-        "http://www.urse.edu.mx/"
-      ],
-      "userId": 2,
-      "id": 12
-    }
   ]
 }

@@ -25,8 +25,8 @@ export const UniItem: React.FC<University> = ({
 
   const isFavorite = useMemo(() => favoritesUni.some(u => u.name === name), [favoritesUni])
 
-  const onSelectUni = (): void => {
-    selectUni({
+  const onSelectUni = async (): Promise<void> => {
+    await selectUni({
       name,
       country,
       ...res

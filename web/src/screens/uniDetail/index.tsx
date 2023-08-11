@@ -31,8 +31,6 @@ export function UniDetail(): JSX.Element {
   const [currencyKey] = Object.keys(selectedCountry?.currencies);
   const [langKey] = Object.keys(selectedCountry?.languages);
 
-  console.log(currencyKey, langKey)
-
   return (
     <section className="bg-gray-100 overflow-hidden w-full h-full py-14 flex">
       <div className="w-[1250px] overflow-auto flex justify-between mx-auto">
