@@ -1,4 +1,3 @@
-import { useContext } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -6,7 +5,7 @@ import {
   Navigate,
 } from "react-router-dom";
 
-import { DataContext } from "../context/dataContext";
+import { useDataContext } from "../context/dataContext";
 
 import { Login } from "../screens/login";
 import { Home } from "../screens/home";
@@ -14,7 +13,7 @@ import { UniDetail } from "../screens/uniDetail";
 import { Navbar } from "../componets/navBar";
 
 export const AppRouter = () => {
-  const { state: { logged } } = useContext(DataContext)
+  const { state: { logged } } = useDataContext()
 
   return (
     <Router>

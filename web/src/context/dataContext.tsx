@@ -1,17 +1,20 @@
 import { createContext, useContext, ReactNode } from 'react';
 import { useLocalStorage } from 'react-use-storage';
 import { University } from '../types/university';
+import { Api } from '../api';
+import { Country } from '../types/country';
 
 interface DataContextType {
   state: {
-    user: string;
+    user: { user: string, id: number };
     favoritesUni: University[];
     logged: boolean;
-    selectedUni: University
+    selectedUni: University;
+    selectedCountry: Country;
   };
   setState: (newState: Partial<DataContextType['state']>) => void;
-  updateFavs: (uni: University) => void;
-  selectUni: (uni: University) => void;
+  selectUni: (uni: University) => Promise<void>;
+  updateFavs: () => Promise<void>;
   removeState: () => void;
 }
 
@@ -25,24 +28,24 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
   const [state, setState, removeState] = useLocalStorage<DataContextType['state']>(
     'ContextData',
     {
-      user: '',
+      user: null,
       favoritesUni: [],
       logged: false,
-      selectedUni: null
+      selectedUni: null,
+      selectedCountry: null
+
     }
   );
 
-  const updateFavs = (uni: University): void => {
-    const { favoritesUni } = state;
-    const updatedFavorites = favoritesUni.some(u => u.name === uni.name)
-      ? favoritesUni.filter(u => u.name !== uni.name)
-      : [...favoritesUni, uni];
-
+  const updateFavs = async (): Promise<void> => {
+    const updatedFavorites = await Api.getFavorites({ userId: state.user.id })
     setState({ ...state, favoritesUni: updatedFavorites });
   };
 
-  const selectUni = (uni: University): void => {
-    setState({ ...state, selectedUni: uni });
+  const selectUni = async (selectedUni: University): Promise<void> => {
+    const selectedCountry = await Api.getUniCountryData(selectedUni.country)
+    console.log({ selectedCountry })
+    setState({ ...state, selectedUni, selectedCountry });
   };
 
   const contextValue: DataContextType = {
@@ -50,7 +53,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
     setState,
     removeState,
     updateFavs,
-    selectUni
+    selectUni,
   };
 
   return (

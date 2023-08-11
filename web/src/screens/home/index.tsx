@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 
 import { UniItem } from "../../componets/UniItem";
 import { SearchBox } from "./searchBox";
-import { UniversitiesApi } from "../../api";
+import { Api } from "../../api";
 import { University } from "../../types/university";
 
 export function Home(): JSX.Element {
@@ -15,9 +15,9 @@ export function Home(): JSX.Element {
     async (name?: string) => {
       try {
         setIsLoading(true)
-        const universitiesByNameAndCountry = await UniversitiesApi.searchByNameAndCountry(name);
+        const universitiesByName = await Api.searchByName({ name });
         setIsLoading(false)
-        setData(universitiesByNameAndCountry)
+        setData(universitiesByName)
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -29,7 +29,7 @@ export function Home(): JSX.Element {
     async (name?: string) => {
       try {
         setIsLoading(true)
-        const universitiesByNameAndCountry = await UniversitiesApi.searchUniversitiesAutoComplete(name);
+        const universitiesByNameAndCountry = await Api.searchByName({ name, limit: 5 });
         setIsLoading(false)
         setOptions(universitiesByNameAndCountry)
       } catch (error) {
@@ -41,10 +41,10 @@ export function Home(): JSX.Element {
 
   return (
     <section className="bg-gray-100 h-full pt-14 overflow-hidden flex flex-col">
-      <div className="lg:w-[600px] w-full md:px-8 mx-auto">
+      <div className="lg:w-[600px] w-full lg:px-0 px-8 mx-auto">
         <SearchBox isLoading={isLoading} onSearch={searchUniversities} onAutoComplete={searchUniversitiesAutoComplete} options={options} />
       </div>
-      <div className="overflow-auto w-[600px] flex flex-col mx-auto">
+      <div className="overflow-auto lg:w-[600px] w-full lg:px-0 px-8 flex flex-col mx-auto">
         {data.map((uni: University) => (
           <UniItem
             {...uni}

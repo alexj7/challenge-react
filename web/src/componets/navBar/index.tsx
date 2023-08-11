@@ -1,14 +1,13 @@
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { DataContext } from "../../context/dataContext";
+import { useDataContext } from "../../context/dataContext";
 
 import logo from "../../assets/logo.png";
 
 
 export const Navbar = () => {
 
-  const { removeState, state: { logged }, setState } = useContext(DataContext)
+  const { removeState, state: { logged }, setState } = useDataContext()
   const navigate = useNavigate();
 
   const navigateTo = (route) => {
@@ -16,8 +15,8 @@ export const Navbar = () => {
   };
 
   const onLogout = (): void => {
-    setState({ logged: false, favoritesUni: [] })
     removeState()
+    setState({ logged: false, favoritesUni: [] })
     navigateTo('/login')
   }
 

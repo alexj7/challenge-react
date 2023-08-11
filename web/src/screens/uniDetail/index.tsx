@@ -1,36 +1,37 @@
-import { useCallback, useEffect, useState, useContext } from "react";
-
-import { DataContext } from "../../context/dataContext";
-
+import { useEffect, useCallback } from "react";
+import { useDataContext } from "../../context/dataContext";
 import { UniItem } from "../../componets/UniItem";
-import { UniversitiesApi } from "../../api";
-import type { University } from "../../types/university";
-
+import { CurrencyNames } from "../../types/country";
 
 export function UniDetail(): JSX.Element {
-  const [data, setData] = useState<University[]>([]);
+  const {
+    state: { selectedUni, favoritesUni, selectedCountry },
+    selectUni,
+    updateFavs,
+  } = useDataContext();
 
-  const { state: { favoritesUni, selectedUni }, selectUni } = useContext(DataContext)
-
-
-  const searchUniversitiesAutoComplete = useCallback(
-    async (name?: string) => {
-      try {
-        const universitiesByNameAndCountry = await UniversitiesApi.searchUniversitiesAutoComplete(name);
-        setData(universitiesByNameAndCountry)
-        if (!selectedUni) {
-          selectUni(favoritesUni[0])
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    },
-    [],
-  )
+  const getFavs = useCallback(async () => {
+    try {
+      await updateFavs();
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }, [updateFavs]);
 
   useEffect(() => {
-    searchUniversitiesAutoComplete()
-  }, [])
+    if (!selectedUni && favoritesUni.length > 0) {
+      selectUni(favoritesUni[0]);
+    }
+  }, [favoritesUni]);
+
+  useEffect(() => {
+    getFavs();
+  }, []);
+
+  const [currencyKey] = Object.keys(selectedCountry?.currencies);
+  const [langKey] = Object.keys(selectedCountry?.languages);
+
+  console.log(currencyKey, langKey)
 
   return (
     <section className="bg-gray-100 overflow-hidden w-full h-full py-14 flex">
@@ -44,7 +45,7 @@ export function UniDetail(): JSX.Element {
 
           {
             favoritesUni.length == 0 &&
-            <span className="font-open-sans font-bold text-xl text-gray-300 mt-32 text-center"> No hay universidades marcadas como favoritas</span>
+            <span className="font-open-sans font-bold text-xl text-gray-300 mt-32"> No hay universidades marcadas como favoritas</span>
           }
 
         </div>
@@ -71,12 +72,11 @@ export function UniDetail(): JSX.Element {
 
 
                 <p className="mt-5">Website:  <a className="text-sky-500 underline" href={selectedUni?.web_pages[0]} target="_blank" >{selectedUni?.web_pages[0]}</a> </p>
-                <p className="mt-5">Location:  <span className="text-sky-500 underline" >{selectedUni?.country}, city</span> </p>
-                <p className="mt-5">Country’s capital:  <span className="text-sky-500 underline" >{selectedUni?.country}, city</span> </p>
-                <p className="mt-5">Country’s capital:  <span className="text-sky-500 underline" >{selectedUni?.country}, city</span> </p>
-                <p className="mt-5">Currency:  Name (Symbol) </p>
-                <p className="mt-5">Language:  Name </p>
-                <p className="mt-5">Population:  99999999 </p>
+                <p className="mt-5">Location:  <span className="text-sky-500 underline" >{selectedUni?.country}, {selectedCountry?.capital[0]}</span> </p>
+                <p className="mt-5">Country’s capital:  <span className="text-sky-500 underline" >{selectedUni?.country}, {selectedCountry?.capital[0]}</span> </p>
+                <p className="mt-5">Currency:  {selectedCountry?.currencies[currencyKey]?.name} ({selectedCountry?.currencies[currencyKey]?.symbol}) </p>
+                <p className="mt-5">Language:  {selectedCountry?.languages[langKey]} </p>
+                <p className="mt-5">Population:  {selectedCountry?.population} </p>
 
               </div>
               :

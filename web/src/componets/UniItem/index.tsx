@@ -1,9 +1,11 @@
-import { useContext, useMemo } from "react";
+import { useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 
-import { DataContext } from "../../context/dataContext";
+import { useDataContext } from "../../context/dataContext";
 import { FavoriteIcon, LinkIcon } from "../icons";
 
 import type { University } from "../../types/university";
+import { Api } from "../../api";
 
 
 /**
@@ -18,9 +20,29 @@ export const UniItem: React.FC<University> = ({
   ...res
 }) => {
 
-  const { updateFavs, state: { favoritesUni } } = useContext(DataContext)
+  const navigate = useNavigate();
+  const { updateFavs, state: { favoritesUni, user }, selectUni } = useDataContext()
 
   const isFavorite = useMemo(() => favoritesUni.some(u => u.name === name), [favoritesUni])
+
+  const onSelectUni = (): void => {
+    selectUni({
+      name,
+      country,
+      ...res
+    })
+    navigate(`/detail/${name}`)
+  }
+
+  const onFavorite = async () => {
+    if (!isFavorite) {
+      await Api.postFavorite({ name, country, ...res, userId: user.id })
+    } else {
+      const id = favoritesUni.find(u => u.name === name)['id']
+      await Api.deleteFavorite(id)
+    }
+    updateFavs()
+  }
 
   return (
     <div className={`shadow-md bg-white py-4 px-8 mb-3`}>
@@ -33,8 +55,8 @@ export const UniItem: React.FC<University> = ({
         </span>
 
         <div className="flex ml-auto items-start w-14 justify-between">
-          <FavoriteIcon favorite={isFavorite} onClick={() => updateFavs({ name, country, ...res })} />
-          <LinkIcon onClick={() => console.log('link click', name)} />
+          <FavoriteIcon favorite={isFavorite} onClick={onFavorite} />
+          <LinkIcon onClick={onSelectUni} />
         </div>
       </div>
     </div>
